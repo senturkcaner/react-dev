@@ -12,9 +12,14 @@ function App() {
 }
 
 function Header() {
+  const headerStyles = {
+    color: "red",
+    fontSize: "30px",
+    textTransform: "uppercase",
+  };
   return (
     <div id="header">
-      <h1>Header</h1>
+      <h1 style={headerStyles}>Header</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
         possimus neque non quam animi quisquam magnam reprehenderit ad ea quidem
@@ -31,34 +36,46 @@ function MovieList() {
       image: "1.jpg",
       title: "Kaptan Amerika",
       description: "Güzel bir film",
+      is_active: true,
+      is_new: true,
     },
     {
       id: 2,
       image: "2.jpg",
       title: "Araba Hırsızları",
       description: "Güzel bir film",
+      is_active: true,
+      is_new: false,
     },
     {
       id: 3,
       image: "3.jpg",
       title: "The Codes of War",
       description: "Güzel bir film",
+      is_active: true,
+      is_new: true,
     },
     {
       id: 4,
       image: "4.jpg",
       title: "Moana 2",
       description: "Güzel bir film",
+      is_active: true,
+      is_new: false,
     },
   ];
   return (
     <div>
-      <h2>Movie List</h2>
-      <div id="movie-list">
-        {movie_list.map((movie, index) => (
-          <Movie key={index} movieObj={movie} />
-        ))}
-      </div>
+      {movie_list.filter((m) => m.is_active).length == 0 ? (
+        <h2>Movie List</h2>
+      ) : (
+        <div id="movie-list">
+          {movie_list.map((movie, index) => (
+            <Movie key={index} movieObj={movie} />
+          ))}
+        </div>
+      )}
+      <div>Film Bulunamadı</div>
     </div>
   );
 }
@@ -66,11 +83,17 @@ function MovieList() {
 function Movie({ movieObj }) {
   console.log(movieObj);
   return (
-    <div className="movie">
-      <img src={"/img/" + movieObj.image} alt="" />
-      <h3>{movieObj.title}</h3>
-      <p>{movieObj.description}</p>
-    </div>
+    <>
+      {movieObj.is_active && (
+        <div className="movie">
+          <img src={"/img/" + movieObj.image} alt="" />
+          <h3 className={`f30 ${movieObj.is_new ? "new" : ""}`}>
+            {movieObj.title}
+          </h3>
+          <p>{movieObj.description}</p>
+        </div>
+      )}
+    </>
   );
 }
 
